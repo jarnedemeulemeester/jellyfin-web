@@ -98,6 +98,12 @@ import './style.css';
                 } else {
                     elem.classList.add('lazy-image-fadein');
                 }
+
+                const canvas = elem.previousSibling;
+                if (elem.classList.contains('blurhashed') && canvas && canvas.tagName === 'CANVAS') {
+                    canvas.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
+                    canvas.classList.add('lazy-hidden');
+                }
             });
         });
     }
@@ -116,6 +122,16 @@ import './style.css';
 
         elem.classList.remove('lazy-image-fadein-fast', 'lazy-image-fadein');
         elem.classList.add('lazy-hidden');
+
+        const canvas = elem.previousSibling;
+        if (canvas && canvas.tagName === 'CANVAS') {
+            canvas.classList.remove('lazy-hidden');
+            if (userSettings.enableFastFadein()) {
+                canvas.classList.add('lazy-image-fadein-fast');
+            } else {
+                canvas.classList.add('lazy-image-fadein');
+            }
+        }
     }
 
     export function lazyChildren(elem) {
